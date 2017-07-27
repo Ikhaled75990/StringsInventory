@@ -319,10 +319,10 @@ public class EditorActivity extends AppCompatActivity implements
         if (mCurrentGuitarUri == null) {
             Uri newUri = getContentResolver().insert(GuitarContract.GuitarEntry.CONTENT_URI, values);
             if (newUri == null) {
-                Toast.makeText(this, getString(R.string.editor_insert_guitar_failed), Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, getString(R.string.editor_insert_guitar_failed), Toast.LENGTH_LONG).show();
 
             } else {
-                Toast.makeText(this, getString(R.string.editor_insert_guitar_successful), Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, getString(R.string.editor_insert_guitar_successful), Toast.LENGTH_LONG).show();
 
             }
         } else {
