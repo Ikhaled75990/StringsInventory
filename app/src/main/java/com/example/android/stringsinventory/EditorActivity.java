@@ -15,6 +15,7 @@ import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
+import android.support.annotation.Nullable;
 import android.support.v4.app.NavUtils;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
@@ -68,30 +69,41 @@ public class EditorActivity extends AppCompatActivity implements
 
     private Uri mCurrentGuitarUri;
 
-    @BindView(R.id.edit_manufacturer_name) EditText mManufacturerNameEditText;
-    @BindView(R.id.edit_model) EditText mModelNameEditText;
-    @BindView(R.id.edit_price) EditText mPriceEditText;
-    @BindView(R.id.edit_quantity) EditText mQuantityEditText;
-    @BindView(R.id.image_cover) ImageView mGuitarCover;
-    @BindView(R.id.edit_supplier_name) EditText mSupplierNameEditText;
-    @BindView(R.id.edit_supplier_email) EditText mSupplierEmailEditText;
-    @BindView(R.id.add_image) Button mAddImage;
-    @BindView(R.id.email_button) Button mOrder;
-    @BindView(R.id.plus) Button mAddStock;
-    @BindView(R.id.minus) Button mMinusStock;
+    @BindView(R.id.edit_manufacturer_name)
+    EditText mManufacturerNameEditText;
+    @BindView(R.id.edit_model)
+    EditText mModelNameEditText;
+    @BindView(R.id.edit_price)
+    EditText mPriceEditText;
+    @BindView(R.id.edit_quantity)
+    EditText mQuantityEditText;
+    @BindView(R.id.image_cover)
+    ImageView mGuitarCover;
+    @BindView(R.id.edit_supplier_name)
+    EditText mSupplierNameEditText;
+    @BindView(R.id.edit_supplier_email)
+    EditText mSupplierEmailEditText;
+    @BindView(R.id.add_image)
+    Button mAddImage;
+    @BindView(R.id.email_button)
+    Button mOrder;
+    @BindView(R.id.plus)
+    Button mAddStock;
+    @BindView(R.id.minus)
+    Button mMinusStock;
 
     private boolean mGuitarHasChanged = false;
 
-    private View.OnTouchListener mTouchListener = new View.OnTouchListener(){
+    private View.OnTouchListener mTouchListener = new View.OnTouchListener() {
         @Override
-        public boolean onTouch(View view, MotionEvent motionEvent){
+        public boolean onTouch(View view, MotionEvent motionEvent) {
             mGuitarHasChanged = true;
             return false;
         }
     };
 
     @Override
-    protected void onCreate(Bundle savedInstanceState){
+    protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_editor);
 
@@ -100,10 +112,10 @@ public class EditorActivity extends AppCompatActivity implements
         Intent intent = getIntent();
         mCurrentGuitarUri = intent.getData();
 
-        if (mCurrentGuitarUri == null){
+        if (mCurrentGuitarUri == null) {
             setTitle(getString(R.string.editor_activity_title_new_guitar));
             invalidateOptionsMenu();
-        }else{
+        } else {
             setTitle(getString(R.string.editor_activity_title_edit_guitar));
             getLoaderManager().initLoader(EXISTING_GUITAR_LOADER, null, this);
         }
@@ -132,24 +144,24 @@ public class EditorActivity extends AppCompatActivity implements
         mOrder.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent emailIntent  = new Intent(Intent.ACTION_SENDTO);
+                Intent emailIntent = new Intent(Intent.ACTION_SENDTO);
 
                 String to = mSupplierEmailEditText.getText().toString();
                 String manufacturerName = mManufacturerNameEditText.getText().toString();
                 String modelName = mModelNameEditText.getText().toString();
-                String subject = "Order: " + modelName +"by: " + manufacturerName;
+                String subject = "Order: " + modelName + "by: " + manufacturerName;
                 String supplier = mSupplierNameEditText.getText().toString();
                 String sep = System.getProperty("line.separator");
-                String message = "Dear " + supplier + "," + sep +"I would like to order 10 more pieces of " + modelName + "by, " + manufacturerName + "." + sep + "Regards, " + sep + "Ikramul.";
+                String message = "Dear " + supplier + "," + sep + "I would like to order 10 more pieces of " + modelName + "by, " + manufacturerName + "." + sep + "Regards, " + sep + "Ikramul.";
                 emailIntent.setData(Uri.parse("mailto:" + to));
                 emailIntent.putExtra(Intent.EXTRA_SUBJECT, subject);
                 emailIntent.putExtra(Intent.EXTRA_TEXT, message);
 
-                try{
+                try {
                     startActivity(emailIntent);
                     finish();
                     Log.i(LOG_TAG, "Finished sending email...");
-                } catch (android.content.ActivityNotFoundException ex){
+                } catch (android.content.ActivityNotFoundException ex) {
                     Toast.makeText(EditorActivity.this, "There is no email client installed.", Toast.LENGTH_LONG).show();
                 }
             }
@@ -157,19 +169,19 @@ public class EditorActivity extends AppCompatActivity implements
     }
 
     @Override
-    protected void onSaveInstanceState(Bundle outState){
+    protected void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
 
-        if (mImageUri != null){
+        if (mImageUri != null) {
             outState.putString(STATE_IMAGE_URI, mImageUri.toString());
         }
     }
 
     @Override
-    protected void onRestoreInstanceState(Bundle savedInstanceState){
+    protected void onRestoreInstanceState(Bundle savedInstanceState) {
         super.onRestoreInstanceState(savedInstanceState);
         if (savedInstanceState.containsKey(STATE_IMAGE_URI) &&
-                !savedInstanceState.get(STATE_IMAGE_URI).equals("")){
+                !savedInstanceState.get(STATE_IMAGE_URI).equals("")) {
             mImageUri = Uri.parse(savedInstanceState.getString(STATE_IMAGE_URI));
 
             ViewTreeObserver viewTreeObserver = mGuitarCover.getViewTreeObserver();
@@ -183,8 +195,8 @@ public class EditorActivity extends AppCompatActivity implements
         }
     }
 
-    protected void onActivityResult(int requestCode, int resultCode, Intent data){
-        if (requestCode == IMAGE_GALLERY_REQUEST && (resultCode == RESULT_OK)){
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (requestCode == IMAGE_GALLERY_REQUEST && (resultCode == RESULT_OK)) {
             try {
                 mImageUri = data.getData();
                 int takeFlags = data.getFlags();
@@ -202,8 +214,9 @@ public class EditorActivity extends AppCompatActivity implements
                     e.printStackTrace();
                 }
                 mGuitarCover.setImageBitmap(getBitmapFromUri(mImageUri, mContext, mGuitarCover));
-            }catch (Exception e){
-                e.printStackTrace();;
+            } catch (Exception e) {
+                e.printStackTrace();
+                ;
                 Toast.makeText(EditorActivity.this, "Unable to open image", Toast.LENGTH_SHORT).show();
 
             }
@@ -211,15 +224,15 @@ public class EditorActivity extends AppCompatActivity implements
     }
 
     @Override
-    public Intent getSupportParentActivityIntent(){
+    public Intent getSupportParentActivityIntent() {
         Intent intent = super.getSupportParentActivityIntent();
-        if (intent != null){
+        if (intent != null) {
             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         }
         return intent;
     }
 
-    public Bitmap getBitmapFromUri(Uri uri, Context context, ImageView imageView){
+    public Bitmap getBitmapFromUri(Uri uri, Context context, ImageView imageView) {
         if (uri == null || uri.toString().isEmpty())
             return null;
 
@@ -227,13 +240,15 @@ public class EditorActivity extends AppCompatActivity implements
         int targetHeight = imageView.getHeight();
 
         InputStream input = null;
-        try{
+        try {
             input = this.getContentResolver().openInputStream(uri);
 
             BitmapFactory.Options bmOptions = new BitmapFactory.Options();
             bmOptions.inJustDecodeBounds = true;
             BitmapFactory.decodeStream(input, null, bmOptions);
-            input.close();
+            if (input != null) {
+                input.close();
+            }
 
             int photoWidth = bmOptions.outWidth;
             int photoHeight = bmOptions.outHeight;
@@ -245,24 +260,28 @@ public class EditorActivity extends AppCompatActivity implements
 
             input = this.getContentResolver().openInputStream(uri);
             Bitmap bitmap = BitmapFactory.decodeStream(input, null, bmOptions);
-            input.close();
+            if (input != null) {
+                input.close();
+            }
             return bitmap;
-        } catch (FileNotFoundException fne){
+        } catch (FileNotFoundException fne) {
             Log.e(LOG_TAG, "Failed to load image.", fne);
             return null;
         } catch (Exception e) {
             Log.e(LOG_TAG, "Failed to load image.", e);
             return null;
-        }finally {
+        } finally {
             try {
-                input.close();
-            } catch (IOException ioe){
+                if (input != null) {
+                    input.close();
+                }
+            } catch (IOException ioe) {
 
             }
         }
     }
 
-    private void saveGuitar(){
+    private void saveGuitar() {
 
         String manufacturerNameString = mManufacturerNameEditText.getText().toString().trim();
         String modelNameString = mModelNameEditText.getText().toString().trim();
@@ -271,76 +290,70 @@ public class EditorActivity extends AppCompatActivity implements
         String supplierNameString = mSupplierNameEditText.getText().toString().trim();
         String supplierEmailString = mSupplierEmailEditText.getText().toString().trim();
 
-        if ((TextUtils.isEmpty(manufacturerNameString)) && (!TextUtils.isEmpty(modelNameString)) && (!TextUtils.isEmpty(mImagePath)) &&
-            (!TextUtils.isEmpty(priceString)) && (!TextUtils.isEmpty(quantityString)) && (!TextUtils.isEmpty(supplierNameString)) &&
-                    (!TextUtils.isEmpty(supplierEmailString))){
-            finish();
-        } else{
-            if (mCurrentGuitarUri == null ||
-                    TextUtils.isEmpty(manufacturerNameString) || TextUtils.isEmpty(modelNameString) ||
-                    TextUtils.isEmpty(priceString) || TextUtils.isEmpty(quantityString) ||
-                    TextUtils.isEmpty(supplierNameString) || TextUtils.isEmpty(supplierEmailString)){
-                Toast.makeText(getApplicationContext(), "Please fill in all the missing fields.", Toast.LENGTH_LONG).show();
-            }
-        }
-        if (mImageUri == null){
-            return;
-        }
-
-        mImagePath = mImageUri.toString();
-
-        Log.i(LOG_TAG, "TEST: Guitar cover string is: " + mImagePath);
-
-        ContentValues values = new ContentValues();
-        values.put(GuitarContract.GuitarEntry.COLUMN_MANUFACTURER_NAME, manufacturerNameString);
-        values.put(GuitarContract.GuitarEntry.COLUMN_MODEL, modelNameString);
-        int price = 0;
-        if (!TextUtils.isEmpty(priceString)){
-            price = Integer.parseInt(priceString);
-        }
-        values.put(GuitarContract.GuitarEntry.COLUMN_PRICE, price);
-
-        int quantity = 0;
-        if (!TextUtils.isEmpty(quantityString)){
-            quantity = Integer.parseInt(quantityString);
-        }
-        values.put(GuitarContract.GuitarEntry.COLUMN_QUANTITY, quantity);
-        values.put(GuitarContract.GuitarEntry.COLUMN_GUITAR_COVER, mImagePath);
-        values.put(GuitarContract.GuitarEntry.COLUMN_SUPPLIER_NAME, supplierNameString);
-        values.put(GuitarContract.GuitarEntry.COLUMN_SUPPLIER_EMAIL, supplierEmailString);
-
-        if (mCurrentGuitarUri == null){
-            Uri newUri = getContentResolver().insert(GuitarContract.GuitarEntry.CONTENT_URI, values);
-            if (newUri == null){
-                Toast.makeText(this, getString(R.string.editor_insert_guitar_failed), Toast.LENGTH_SHORT).show();
-
-            } else {
-                Toast.makeText(this, getString(R.string.editor_insert_guitar_successful), Toast.LENGTH_SHORT).show();
-
-            }
+        if (TextUtils.isEmpty(manufacturerNameString) || TextUtils.isEmpty(modelNameString) ||
+                TextUtils.isEmpty(priceString) || TextUtils.isEmpty(quantityString) ||
+                TextUtils.isEmpty(supplierNameString) || TextUtils.isEmpty(supplierEmailString) || mImageUri ==  null) {
+            Toast.makeText(getApplicationContext(), "Please fill in all the missing fields.", Toast.LENGTH_LONG).show();
         } else {
+            finish();
+            }
 
-            int rowsAffected = getContentResolver().update(mCurrentGuitarUri, values, null, null);
+            mImagePath = mImageUri.toString();
 
-            if (rowsAffected == 0){
-                Toast.makeText(this, getString(R.string.editor_update_guitar_failed), Toast.LENGTH_SHORT).show();
-            } else{
-                Toast.makeText(this, getString(R.string.editor_update_guitar_successful), Toast.LENGTH_SHORT).show();;
+            Log.i(LOG_TAG, "TEST: Guitar cover string is: " + mImagePath);
 
+            ContentValues values = new ContentValues();
+            values.put(GuitarContract.GuitarEntry.COLUMN_MANUFACTURER_NAME, manufacturerNameString);
+            values.put(GuitarContract.GuitarEntry.COLUMN_MODEL, modelNameString);
+            int price = 0;
+            if (!TextUtils.isEmpty(priceString)) {
+                price = Integer.parseInt(priceString);
+            }
+            values.put(GuitarContract.GuitarEntry.COLUMN_PRICE, price);
+
+            int quantity = 0;
+            if (!TextUtils.isEmpty(quantityString)) {
+                quantity = Integer.parseInt(quantityString);
+            }
+            values.put(GuitarContract.GuitarEntry.COLUMN_QUANTITY, quantity);
+            values.put(GuitarContract.GuitarEntry.COLUMN_GUITAR_COVER, mImagePath);
+            values.put(GuitarContract.GuitarEntry.COLUMN_SUPPLIER_NAME, supplierNameString);
+            values.put(GuitarContract.GuitarEntry.COLUMN_SUPPLIER_EMAIL, supplierEmailString);
+
+            if (mCurrentGuitarUri == null) {
+                Uri newUri = getContentResolver().insert(GuitarContract.GuitarEntry.CONTENT_URI, values);
+                if (newUri == null) {
+                    Toast.makeText(this, getString(R.string.editor_insert_guitar_failed), Toast.LENGTH_SHORT).show();
+
+                } else {
+                    Toast.makeText(this, getString(R.string.editor_insert_guitar_successful), Toast.LENGTH_SHORT).show();
+
+                }
+            } else {
+
+                int rowsAffected = getContentResolver().update(mCurrentGuitarUri, values, null, null);
+
+                if (rowsAffected == 0) {
+                    Toast.makeText(this, getString(R.string.editor_update_guitar_failed), Toast.LENGTH_SHORT).show();
+                } else {
+                    Toast.makeText(this, getString(R.string.editor_update_guitar_successful), Toast.LENGTH_SHORT).show();
+
+
+                }
             }
         }
-    }
+
 
     @Override
-    public boolean onCreateOptionsMenu(Menu menu){
+    public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_editor, menu);
         return true;
     }
 
     @Override
-    public boolean onPrepareOptionsMenu(Menu menu){
+    public boolean onPrepareOptionsMenu(Menu menu) {
         super.onPrepareOptionsMenu(menu);
-        if (mCurrentGuitarUri == null){
+        if (mCurrentGuitarUri == null) {
             MenuItem menuItem = menu.findItem(R.id.action_delete);
             menuItem.setVisible(false);
         }
@@ -348,31 +361,32 @@ public class EditorActivity extends AppCompatActivity implements
     }
 
     @Override
-    public boolean onOptionsItemSelected(MenuItem item){
-        switch (item.getItemId()){
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
             case R.id.action_save:
                 saveGuitar();
 
                 return true;
 
             case R.id.action_delete:
-                showDeleteConfirmationDialog();;
+                showDeleteConfirmationDialog();
+                ;
                 return true;
 
             case android.R.id.home:
-                if (!mGuitarHasChanged){
+                if (!mGuitarHasChanged) {
                     NavUtils.navigateUpFromSameTask(EditorActivity.this);
                     return true;
                 }
 
                 DialogInterface.OnClickListener discardButtonClickListener =
-                        new DialogInterface.OnClickListener(){
+                        new DialogInterface.OnClickListener() {
                             @Override
-                            public void onClick(DialogInterface dialogInterface, int i){
+                            public void onClick(DialogInterface dialogInterface, int i) {
                                 NavUtils.navigateUpFromSameTask(EditorActivity.this);
                             }
                         };
-                        showUnsavedChangesDialog(discardButtonClickListener);
+                showUnsavedChangesDialog(discardButtonClickListener);
                 return true;
         }
 
@@ -380,8 +394,8 @@ public class EditorActivity extends AppCompatActivity implements
     }
 
     @Override
-    public void onBackPressed(){
-        if (!mGuitarHasChanged){
+    public void onBackPressed() {
+        if (!mGuitarHasChanged) {
             super.onBackPressed();
             return;
         }
@@ -393,7 +407,7 @@ public class EditorActivity extends AppCompatActivity implements
                         finish();
                     }
                 };
-                showUnsavedChangesDialog(discardButtononClickListener);
+        showUnsavedChangesDialog(discardButtononClickListener);
     }
 
 
@@ -418,7 +432,7 @@ public class EditorActivity extends AppCompatActivity implements
 
     @Override
     public void onLoadFinished(Loader<Cursor> loader, Cursor cursor) {
-        if (cursor == null || cursor.getCount() < 1){
+        if (cursor == null || cursor.getCount() < 1) {
             return;
         }
         ViewTreeObserver viewTreeObserver = mGuitarCover.getViewTreeObserver();
@@ -432,7 +446,7 @@ public class EditorActivity extends AppCompatActivity implements
             }
         });
 
-        if (cursor.moveToFirst()){
+        if (cursor.moveToFirst()) {
             int idColumnIndex = cursor.getColumnIndex(GuitarContract.GuitarEntry._ID);
             int manufacturerNameColumnIndex = cursor.getColumnIndex(GuitarContract.GuitarEntry.COLUMN_MANUFACTURER_NAME);
             int modelNameColumnIndex = cursor.getColumnIndex(GuitarContract.GuitarEntry.COLUMN_MODEL);
@@ -469,7 +483,7 @@ public class EditorActivity extends AppCompatActivity implements
                         values.put(GuitarContract.GuitarEntry.COLUMN_QUANTITY, newQuantity);
                         Uri guitarUri = ContentUris.withAppendedId(GuitarContract.GuitarEntry.CONTENT_URI, guitarID);
                         int numRowsUpdated = EditorActivity.this.getContentResolver().update(guitarUri, values, null, null);
-                        if (!(numRowsUpdated > 0)){
+                        if (!(numRowsUpdated > 0)) {
                             Log.e(TAG, EditorActivity.this.getString(R.string.editor_update_guitar_failed));
                         }
                     }
@@ -510,13 +524,13 @@ public class EditorActivity extends AppCompatActivity implements
     }
 
     private void showUnsavedChangesDialog(
-            DialogInterface.OnClickListener discardButtonClickListener){
+            DialogInterface.OnClickListener discardButtonClickListener) {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setMessage(R.string.unsaved_changes_dialog_message);
         builder.setPositiveButton(R.string.discard, discardButtonClickListener);
-        builder.setNegativeButton(R.string.keep_editing, new DialogInterface.OnClickListener(){
-            public void onClick(DialogInterface dialog, int id){
-                if (dialog != null){
+        builder.setNegativeButton(R.string.keep_editing, new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int id) {
+                if (dialog != null) {
                     dialog.dismiss();
                 }
             }
@@ -526,11 +540,11 @@ public class EditorActivity extends AppCompatActivity implements
         alertDialog.show();
     }
 
-    private void showDeleteConfirmationDialog(){
+    private void showDeleteConfirmationDialog() {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setMessage(R.string.delete_dialog_msg);
-        builder.setPositiveButton(R.string.delete, new DialogInterface.OnClickListener(){
-            public void onClick(DialogInterface dialog, int id){
+        builder.setPositiveButton(R.string.delete, new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int id) {
                 deleteRecord();
             }
         });
@@ -540,14 +554,14 @@ public class EditorActivity extends AppCompatActivity implements
         alertDialog.show();
     }
 
-    private void deleteRecord(){
-        if (mCurrentGuitarUri != null){
+    private void deleteRecord() {
+        if (mCurrentGuitarUri != null) {
             int rowsDeleted = getContentResolver().delete(mCurrentGuitarUri, null, null);
 
-            if(rowsDeleted == 0){
+            if (rowsDeleted == 0) {
                 Toast.makeText(this, getString(R.string.editor_delete_guitar_failed), Toast.LENGTH_SHORT).show();
 
-            }else {
+            } else {
                 Toast.makeText(this, getString(R.string.editor_delete_guitar_successful), Toast.LENGTH_SHORT).show();
             }
         }

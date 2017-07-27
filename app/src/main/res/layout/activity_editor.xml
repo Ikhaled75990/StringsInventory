@@ -176,7 +176,7 @@
                 style="@style/EditTextField"
                 android:layout_width="263dp"
                 android:hint="@string/category_supplier_email"
-                android:inputType="textCapWords" />
+                android:inputType="textEmailAddress" />
         </LinearLayout>
 
         <LinearLayout

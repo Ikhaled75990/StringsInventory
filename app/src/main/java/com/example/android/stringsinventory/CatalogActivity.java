@@ -69,7 +69,7 @@ public class CatalogActivity extends AppCompatActivity implements
     }
 
     private void insertGuitar(){
-        Uri path = Uri.parse("android.resource://com.example.android.stringsinventory/" + R.drawable.fender_stratocaster);
+        Uri path = Uri.parse("android.resource://com.example.android.stringsinventory/drawable.fender_stratocaster");
         String imagePath = path.toString();
 
         ContentValues values = new ContentValues();
