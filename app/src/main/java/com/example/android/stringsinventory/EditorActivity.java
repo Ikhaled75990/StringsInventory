@@ -43,6 +43,7 @@ import butterknife.ButterKnife;
 import static android.R.attr.data;
 import static android.content.ContentValues.TAG;
 import static android.icu.lang.UCharacter.GraphemeClusterBreak.T;
+import static com.example.android.stringsinventory.R.id.quantity;
 
 /**
  * Created by Ikki on 27/07/2017.
@@ -292,56 +293,73 @@ public class EditorActivity extends AppCompatActivity implements
 
         if (TextUtils.isEmpty(manufacturerNameString) || TextUtils.isEmpty(modelNameString) ||
                 TextUtils.isEmpty(priceString) || TextUtils.isEmpty(quantityString) ||
-                TextUtils.isEmpty(supplierNameString) || TextUtils.isEmpty(supplierEmailString) || mImageUri ==  null) {
+                TextUtils.isEmpty(supplierNameString) || TextUtils.isEmpty(supplierEmailString) || mImageUri == null) {
             Toast.makeText(getApplicationContext(), "Please fill in all the missing fields.", Toast.LENGTH_LONG).show();
-        } else {
-            finish();
-            }
-
-            mImagePath = mImageUri.toString();
-
-            Log.i(LOG_TAG, "TEST: Guitar cover string is: " + mImagePath);
-
-            ContentValues values = new ContentValues();
-            values.put(GuitarContract.GuitarEntry.COLUMN_MANUFACTURER_NAME, manufacturerNameString);
-            values.put(GuitarContract.GuitarEntry.COLUMN_MODEL, modelNameString);
-            int price = 0;
-            if (!TextUtils.isEmpty(priceString)) {
-                price = Integer.parseInt(priceString);
-            }
-            values.put(GuitarContract.GuitarEntry.COLUMN_PRICE, price);
-
-            int quantity = 0;
-            if (!TextUtils.isEmpty(quantityString)) {
-                quantity = Integer.parseInt(quantityString);
-            }
-            values.put(GuitarContract.GuitarEntry.COLUMN_QUANTITY, quantity);
-            values.put(GuitarContract.GuitarEntry.COLUMN_GUITAR_COVER, mImagePath);
-            values.put(GuitarContract.GuitarEntry.COLUMN_SUPPLIER_NAME, supplierNameString);
-            values.put(GuitarContract.GuitarEntry.COLUMN_SUPPLIER_EMAIL, supplierEmailString);
-
-            if (mCurrentGuitarUri == null) {
-                Uri newUri = getContentResolver().insert(GuitarContract.GuitarEntry.CONTENT_URI, values);
-                if (newUri == null) {
-                    Toast.makeText(this, getString(R.string.editor_insert_guitar_failed), Toast.LENGTH_SHORT).show();
-
-                } else {
-                    Toast.makeText(this, getString(R.string.editor_insert_guitar_successful), Toast.LENGTH_SHORT).show();
-
-                }
-            } else {
-
-                int rowsAffected = getContentResolver().update(mCurrentGuitarUri, values, null, null);
-
-                if (rowsAffected == 0) {
-                    Toast.makeText(this, getString(R.string.editor_update_guitar_failed), Toast.LENGTH_SHORT).show();
-                } else {
-                    Toast.makeText(this, getString(R.string.editor_update_guitar_successful), Toast.LENGTH_SHORT).show();
-
-
-                }
-            }
         }
+
+        mImagePath = mImageUri.toString();
+
+        Log.i(LOG_TAG, "TEST: Guitar cover string is: " + mImagePath);
+
+        ContentValues values = new ContentValues();
+        values.put(GuitarContract.GuitarEntry.COLUMN_MANUFACTURER_NAME, manufacturerNameString);
+        values.put(GuitarContract.GuitarEntry.COLUMN_MODEL, modelNameString);
+        int price = 0;
+        if (!TextUtils.isEmpty(priceString)) {
+            price = Integer.parseInt(priceString);
+        }
+        values.put(GuitarContract.GuitarEntry.COLUMN_PRICE, price);
+
+        int quantity = 0;
+
+        mAddStock.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                int quantity = Integer.parseInt(mQuantityEditText.getText().toString());
+                quantity = quantity + 1;
+                mQuantityEditText.setText(String.valueOf(quantity));
+            }
+        });
+
+        mMinusStock.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                int quantity = Integer.parseInt(mQuantityEditText.getText().toString());
+                quantity = quantity - 1;
+                mQuantityEditText.setText(String.valueOf(quantity));
+            }
+        });
+        if (!TextUtils.isEmpty(quantityString)) {
+            quantity = Integer.parseInt(quantityString);
+        }
+        values.put(GuitarContract.GuitarEntry.COLUMN_QUANTITY, quantity);
+        values.put(GuitarContract.GuitarEntry.COLUMN_GUITAR_COVER, mImagePath);
+        values.put(GuitarContract.GuitarEntry.COLUMN_SUPPLIER_NAME, supplierNameString);
+        values.put(GuitarContract.GuitarEntry.COLUMN_SUPPLIER_EMAIL, supplierEmailString);
+
+        if (mCurrentGuitarUri == null) {
+            Uri newUri = getContentResolver().insert(GuitarContract.GuitarEntry.CONTENT_URI, values);
+            if (newUri == null) {
+                Toast.makeText(this, getString(R.string.editor_insert_guitar_failed), Toast.LENGTH_SHORT).show();
+
+            } else {
+                Toast.makeText(this, getString(R.string.editor_insert_guitar_successful), Toast.LENGTH_SHORT).show();
+
+            }
+        } else {
+
+            int rowsAffected = getContentResolver().update(mCurrentGuitarUri, values, null, null);
+
+            if (rowsAffected == 0) {
+                Toast.makeText(this, getString(R.string.editor_update_guitar_failed), Toast.LENGTH_SHORT).show();
+            } else {
+                Toast.makeText(this, getString(R.string.editor_update_guitar_successful), Toast.LENGTH_SHORT).show();
+
+
+            }
+            finish();
+        }
+    }
 
 
     @Override
@@ -365,7 +383,8 @@ public class EditorActivity extends AppCompatActivity implements
         switch (item.getItemId()) {
             case R.id.action_save:
                 saveGuitar();
-
+                Intent intent = new Intent(EditorActivity.this, CatalogActivity.class);
+                startActivity(intent);
                 return true;
 
             case R.id.action_delete:
@@ -479,33 +498,22 @@ public class EditorActivity extends AppCompatActivity implements
                 public void onClick(View v) {
                     if (quantity >= 0) {
                         int newQuantity = quantity + 1;
+                        mQuantityEditText.setText(String.valueOf(quantity));
                         ContentValues values = new ContentValues();
                         values.put(GuitarContract.GuitarEntry.COLUMN_QUANTITY, newQuantity);
-                        Uri guitarUri = ContentUris.withAppendedId(GuitarContract.GuitarEntry.CONTENT_URI, guitarID);
-                        int numRowsUpdated = EditorActivity.this.getContentResolver().update(guitarUri, values, null, null);
-                        if (!(numRowsUpdated > 0)) {
-                            Log.e(TAG, EditorActivity.this.getString(R.string.editor_update_guitar_failed));
-                        }
                     }
-                    int newQuantity = 0;
                 }
             });
 
             mMinusStock.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
+
                     if (quantity >= 1) {
                         int newQuantity = quantity - 1;
                         ContentValues values = new ContentValues();
                         values.put(GuitarContract.GuitarEntry.COLUMN_QUANTITY, newQuantity);
-                        Uri guitarUri = ContentUris.withAppendedId(GuitarContract.GuitarEntry.CONTENT_URI, guitarID);
-                        int numRowsUpdated = EditorActivity.this.getContentResolver().update(guitarUri, values, null, null);
-                        if (!(numRowsUpdated > 0)) {
-                            Log.e(TAG, EditorActivity.this.getString(R.string.editor_update_guitar_failed));
-                        } else if (!(quantity >= 1)) {
-                            Toast.makeText(EditorActivity.this, "You cannot have a negative stock.", Toast.LENGTH_SHORT).show();
 
-                        }
                     }
                 }
             });

@@ -69,7 +69,7 @@ public class CatalogActivity extends AppCompatActivity implements
     }
 
     private void insertGuitar(){
-        Uri path = Uri.parse("android.resource://com.example.android.stringsinventory/drawable.fender_stratocaster");
+        Uri path = Uri.parse("android.resource://com.example.android.stringsinventory/" + R.drawable.fender_stratocaster);
         String imagePath = path.toString();
 
         ContentValues values = new ContentValues();
@@ -123,6 +123,8 @@ public class CatalogActivity extends AppCompatActivity implements
         switch(item.getItemId()){
             case  R.id.action_insert_dummy_data:
                 insertGuitar();
+                getLoaderManager().restartLoader(GUITAR_LOADER, null, this);
+
                 return true;
             case R.id.action_delete_all_entries:
                 showDeleteConfirmationDialog();

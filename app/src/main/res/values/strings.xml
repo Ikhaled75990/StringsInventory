@@ -28,10 +28,10 @@
     <string name="action_delete">Delete</string>
 
 
-    <string name="editor_insert_guitar_successful">Record saved</string>
+    <string name="editor_insert_guitar_successful">Guitar saved</string>
 
 
-    <string name="editor_insert_guitar_failed">Error  saving guitar</string>
+    <string name="editor_insert_guitar_failed">Error saving guitar</string>
 
     <string name="editor_update_guitar_successful">Guitar updated</string>
 
