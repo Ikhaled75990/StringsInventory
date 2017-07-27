@@ -290,7 +290,9 @@ public class EditorActivity extends AppCompatActivity implements
                 TextUtils.isEmpty(priceString) || TextUtils.isEmpty(quantityString) ||
                 TextUtils.isEmpty(supplierNameString) || TextUtils.isEmpty(supplierEmailString) || mImageUri == null) {
             Toast.makeText(getApplicationContext(), "Please fill in all the missing fields.", Toast.LENGTH_LONG).show();
+            return;
         }
+
 
         mImagePath = mImageUri.toString();
 
