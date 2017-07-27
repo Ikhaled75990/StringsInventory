@@ -251,7 +251,7 @@ public class EditorActivity extends AppCompatActivity implements
             Log.e(LOG_TAG, "Failed to load image.", fne);
             return null;
         } catch (Exception e) {
-            Log.e(LOG_TAG, "Failed to laod image.", e);
+            Log.e(LOG_TAG, "Failed to load image.", e);
             return null;
         }finally {
             try {
