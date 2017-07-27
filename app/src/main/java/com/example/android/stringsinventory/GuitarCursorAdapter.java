@@ -29,7 +29,7 @@ public class GuitarCursorAdapter extends CursorAdapter {
     public static Context mContext;
 
 
-    public GuitarCursorAdapter(Context context, Cursor cursor){
+    public GuitarCursorAdapter(Context context, Cursor cursor) {
         super(context, cursor, 0);
         mContext = context;
     }
@@ -73,7 +73,7 @@ public class GuitarCursorAdapter extends CursorAdapter {
         holder.mSaleTextView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (quantity >= 1){
+                if (quantity >= 1) {
                     Log.i(LOG_TAG, "TEST: On sale click Quantity is: " + quantity);
                     int newQuantity = quantity - 1;
                     Log.i(LOG_TAG, "TEST: One sale click Updated Quantity is: " + newQuantity);
@@ -85,11 +85,11 @@ public class GuitarCursorAdapter extends CursorAdapter {
                     Log.i(LOG_TAG, "TEST: On sale click ContentUri_ID is: " + recordUri);
                     Log.i(LOG_TAG, "TEST: On sale click Manufacturer's Name is: " + manufacturerName);
 
-                    int numRowsUpdated = context.getContentResolver().update(recordUri,contentValues, null, null);
+                    int numRowsUpdated = context.getContentResolver().update(recordUri, contentValues, null, null);
                     Log.i(LOG_TAG, "TEST: Number Rows Updated: " + numRowsUpdated);
-                     if (!(numRowsUpdated > 0)) {
-                         Log.e(LOG_TAG, "Error with udpating guitar");
-                     }
+                    if (!(numRowsUpdated > 0)) {
+                        Log.e(LOG_TAG, "Error with udpating guitar");
+                    }
                 } else if (!(quantity >= 1)) {
 
                     int quantity = 0;

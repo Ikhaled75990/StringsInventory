@@ -74,13 +74,13 @@ public class GuitarProvider extends ContentProvider {
     @Override
     public String getType(Uri uri) {
         final int match = sUriMatcher.match(uri);
-        switch (match){
+        switch (match) {
             case GUITARS:
                 return GuitarEntry.CONTENT_LIST_TYPE;
             case GUITAR_ID:
                 return GuitarEntry.CONTENT_ITEM_TYPE;
             default:
-                throw new IllegalStateException("Unknown URI " +uri + "with match" + match);
+                throw new IllegalStateException("Unknown URI " + uri + "with match" + match);
         }
     }
 
@@ -221,24 +221,24 @@ public class GuitarProvider extends ContentProvider {
 
     @Override
     public int delete(Uri uri, String selection, String[] selectionArgs) {
-       SQLiteDatabase database = mDbHelper.getWritableDatabase();
+        SQLiteDatabase database = mDbHelper.getWritableDatabase();
         int rowsDeleted;
 
         final int match = sUriMatcher.match(uri);
-        switch (match){
+        switch (match) {
             case GUITARS:
                 rowsDeleted = database.delete(GuitarEntry.TABLE_NAME, selection, selectionArgs);
                 break;
             case GUITAR_ID:
                 selection = GuitarEntry._ID + "=?";
-                selectionArgs = new String[]{ String.valueOf(ContentUris.parseId(uri))};
+                selectionArgs = new String[]{String.valueOf(ContentUris.parseId(uri))};
                 rowsDeleted = database.delete(GuitarEntry.TABLE_NAME, selection, selectionArgs);
                 break;
             default:
                 throw new IllegalArgumentException("Deletion is not supported for " + uri);
 
         }
-        if (rowsDeleted != 0){
+        if (rowsDeleted != 0) {
             getContext().getContentResolver().notifyChange(uri, null);
         }
         return rowsDeleted;

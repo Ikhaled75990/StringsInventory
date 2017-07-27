@@ -16,9 +16,9 @@
             android:id="@+id/model_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textStyle="bold"
             android:textAppearance="?android:textAppearanceMedium"
             android:textColor="#2B3D4D"
+            android:textStyle="bold"
             tools:text="Model Name" />
 
         <TextView
@@ -96,12 +96,13 @@
                 android:layout_width="46dp"
                 android:layout_height="46dp"
                 android:layout_gravity="center_vertical"
-                android:background="@drawable/circle"
                 android:layout_margin="7dp"
+                android:background="@drawable/circle"
                 android:gravity="center"
+                android:text="@string/sell"
                 android:textColor="@android:color/primary_text_dark"
-                android:textSize="16sp"
-                tools:text="SELL" />
+                android:textSize="18sp"
+                android:textStyle="bold" />
         </LinearLayout>
     </LinearLayout>
 </LinearLayout>

@@ -25,7 +25,7 @@ import com.example.android.stringsinventory.data.GuitarContract;
 import static android.R.attr.data;
 
 public class CatalogActivity extends AppCompatActivity implements
-        LoaderManager.LoaderCallbacks<Cursor>{
+        LoaderManager.LoaderCallbacks<Cursor> {
 
     public static final String LOG_TAG = CatalogActivity.class.getSimpleName();
 
@@ -68,7 +68,7 @@ public class CatalogActivity extends AppCompatActivity implements
         getLoaderManager().initLoader(GUITAR_LOADER, null, this);
     }
 
-    private void insertGuitar(){
+    private void insertGuitar() {
         Uri path = Uri.parse("android.resource://com.example.android.stringsinventory/" + R.drawable.fender_stratocaster);
         String imagePath = path.toString();
 
@@ -84,25 +84,26 @@ public class CatalogActivity extends AppCompatActivity implements
         getContentResolver().insert(GuitarContract.GuitarEntry.CONTENT_URI, values);
     }
 
-    private void deleteAllGuitars(){
+    private void deleteAllGuitars() {
         int rowsDeleted = getContentResolver().delete(GuitarContract.GuitarEntry.CONTENT_URI, null, null);
         Log.v(LOG_TAG, rowsDeleted + " rows have been deleted from guitars database");
 
     }
 
-    private void showDeleteConfirmationDialog(){
+    private void showDeleteConfirmationDialog() {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setMessage(R.string.delete_dialog_msg);
         builder.setPositiveButton(R.string.delete, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                deleteAllGuitars();;
+                deleteAllGuitars();
+                ;
             }
         });
         builder.setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                if(dialog != null){
+                if (dialog != null) {
                     dialog.dismiss();
                 }
             }
@@ -113,15 +114,15 @@ public class CatalogActivity extends AppCompatActivity implements
     }
 
     @Override
-    public boolean onCreateOptionsMenu (Menu menu){
+    public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_catalog, menu);
         return true;
     }
 
     @Override
-    public boolean onOptionsItemSelected(MenuItem item){
-        switch(item.getItemId()){
-            case  R.id.action_insert_dummy_data:
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.action_insert_dummy_data:
                 insertGuitar();
                 getLoaderManager().restartLoader(GUITAR_LOADER, null, this);
 
@@ -135,12 +136,12 @@ public class CatalogActivity extends AppCompatActivity implements
 
     @Override
     public Loader<Cursor> onCreateLoader(int i, Bundle bundle) {
-      String[] projection = {
-              GuitarContract.GuitarEntry._ID,
-              GuitarContract.GuitarEntry.COLUMN_MANUFACTURER_NAME,
-              GuitarContract.GuitarEntry.COLUMN_MODEL,
-              GuitarContract.GuitarEntry.COLUMN_PRICE,
-              GuitarContract.GuitarEntry.COLUMN_QUANTITY};
+        String[] projection = {
+                GuitarContract.GuitarEntry._ID,
+                GuitarContract.GuitarEntry.COLUMN_MANUFACTURER_NAME,
+                GuitarContract.GuitarEntry.COLUMN_MODEL,
+                GuitarContract.GuitarEntry.COLUMN_PRICE,
+                GuitarContract.GuitarEntry.COLUMN_QUANTITY};
 
         return new CursorLoader(this,
                 GuitarContract.GuitarEntry.CONTENT_URI,

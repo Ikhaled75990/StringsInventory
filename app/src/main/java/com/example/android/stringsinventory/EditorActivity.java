@@ -41,6 +41,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 
 import static android.R.attr.data;
+import static android.R.attr.displayOptions;
 import static android.content.ContentValues.TAG;
 import static android.icu.lang.UCharacter.GraphemeClusterBreak.T;
 import static com.example.android.stringsinventory.R.id.quantity;
@@ -61,15 +62,6 @@ public class EditorActivity extends AppCompatActivity implements
     private static final String STATE_IMAGE_URI = "STATE_IMAGE_URI";
 
     final Context mContext = this;
-
-    private Uri mImageUri;
-
-    private String mImagePath;
-
-    private Bitmap image;
-
-    private Uri mCurrentGuitarUri;
-
     @BindView(R.id.edit_manufacturer_name)
     EditText mManufacturerNameEditText;
     @BindView(R.id.edit_model)
@@ -92,7 +84,10 @@ public class EditorActivity extends AppCompatActivity implements
     Button mAddStock;
     @BindView(R.id.minus)
     Button mMinusStock;
-
+    private Uri mImageUri;
+    private String mImagePath;
+    private Bitmap image;
+    private Uri mCurrentGuitarUri;
     private boolean mGuitarHasChanged = false;
 
     private View.OnTouchListener mTouchListener = new View.OnTouchListener() {
@@ -311,24 +306,6 @@ public class EditorActivity extends AppCompatActivity implements
         values.put(GuitarContract.GuitarEntry.COLUMN_PRICE, price);
 
         int quantity = 0;
-
-        mAddStock.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                int quantity = Integer.parseInt(mQuantityEditText.getText().toString());
-                quantity = quantity + 1;
-                mQuantityEditText.setText(String.valueOf(quantity));
-            }
-        });
-
-        mMinusStock.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                int quantity = Integer.parseInt(mQuantityEditText.getText().toString());
-                quantity = quantity - 1;
-                mQuantityEditText.setText(String.valueOf(quantity));
-            }
-        });
         if (!TextUtils.isEmpty(quantityString)) {
             quantity = Integer.parseInt(quantityString);
         }
@@ -498,9 +475,14 @@ public class EditorActivity extends AppCompatActivity implements
                 public void onClick(View v) {
                     if (quantity >= 0) {
                         int newQuantity = quantity + 1;
-                        mQuantityEditText.setText(String.valueOf(quantity));
                         ContentValues values = new ContentValues();
                         values.put(GuitarContract.GuitarEntry.COLUMN_QUANTITY, newQuantity);
+                        Uri guitarUri = ContentUris.withAppendedId(GuitarContract.GuitarEntry.CONTENT_URI, guitarID);
+                        int numRowsUpdated = EditorActivity.this.getContentResolver().update(guitarUri, values, null, null);
+                        if (!(numRowsUpdated > 0)) {
+                            Log.e(TAG, EditorActivity.this.getString(R.string.editor_update_guitar_failed));
+                        }
+
                     }
                 }
             });
@@ -513,12 +495,19 @@ public class EditorActivity extends AppCompatActivity implements
                         int newQuantity = quantity - 1;
                         ContentValues values = new ContentValues();
                         values.put(GuitarContract.GuitarEntry.COLUMN_QUANTITY, newQuantity);
+                        Uri guitarUri = ContentUris.withAppendedId(GuitarContract.GuitarEntry.CONTENT_URI, guitarID);
+                        int numRowsUpdated = EditorActivity.this.getContentResolver().update(guitarUri, values, null, null);
+                        if (!(numRowsUpdated > 0)) {
+                            Log.e(TAG, EditorActivity.this.getString(R.string.editor_update_guitar_failed));
+                        } else if (!(quantity >= 1)) {
+                            Toast.makeText(EditorActivity.this, getString(R.string.negative_stock), Toast.LENGTH_SHORT).show();
 
+                        }
                     }
                 }
             });
-
         }
+
     }
 
     @Override

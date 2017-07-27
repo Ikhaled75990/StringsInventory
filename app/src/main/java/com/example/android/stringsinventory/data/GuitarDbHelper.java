@@ -16,12 +16,12 @@ public class GuitarDbHelper extends SQLiteOpenHelper {
 
     private static final int DATABASE_VERSION = 1;
 
-    public GuitarDbHelper(Context context){
+    public GuitarDbHelper(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
     }
 
     @Override
-    public void onCreate(SQLiteDatabase db){
+    public void onCreate(SQLiteDatabase db) {
         String SQL_CREATE_GUITARS_TABLE = "CREATE TABLE " + GuitarContract.GuitarEntry.TABLE_NAME + " ("
                 + GuitarContract.GuitarEntry._ID + " INTEGER PRIMARY KEY AUTOINCREMENT, "
                 + GuitarContract.GuitarEntry.COLUMN_MANUFACTURER_NAME + " TEXT NOT NULL, "
@@ -36,7 +36,7 @@ public class GuitarDbHelper extends SQLiteOpenHelper {
     }
 
     @Override
-    public void onUpgrade (SQLiteDatabase db, int oldVersion, int newVersion){
+    public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
 
     }
 }
