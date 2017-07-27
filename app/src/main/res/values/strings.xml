@@ -1,0 +1,110 @@
+<resources>
+    <string name="app_name">Strings Inventory</string>
+
+
+    <string name="action_insert_dummy_data">Insert Dummy Data</string>
+
+
+    <string name="action_delete_all_entries">Delete All Guitars</string>
+
+
+    <string name="empty_view_title_text">No guitar in store to show..</string>
+
+
+    <string name="empty_view_subtitle_text">Start by adding a guitar</string>
+
+    <string name="add_image">Add Image</string>
+
+
+    <string name="editor_activity_title_new_guitar">Add a Guitar</string>
+
+
+    <string name="editor_activity_title_edit_guitar">Edit Guitar</string>
+
+
+    <string name="action_save">Save</string>
+
+
+    <string name="action_delete">Delete</string>
+
+
+    <string name="editor_insert_guitar_successful">Record saved</string>
+
+
+    <string name="editor_insert_guitar_failed">Error  saving guitar</string>
+
+    <string name="editor_update_guitar_successful">Guitar updated</string>
+
+
+    <string name="editor_update_guitar_failed">Error updating guitar</string>
+
+    <string name="unsaved_changes_dialog_message">Discard changes and quit editing?</string>
+
+
+    <string name="discard">Discard</string>
+
+
+    <string name="keep_editing">Keep Editing</string>
+
+
+    <string name="editor_delete_guitar_successful">Guitar deleted</string>
+
+    <string name="editor_delete_guitar_failed">Error deleting guitar</string>
+
+    <string name="delete_dialog_msg">Delete this guitar?</string>
+
+    <string name="delete">Delete</string>
+
+    <string name="cancel">Cancel</string>
+
+
+    <string name="category_manufacturer_name">Manufacturer</string>
+
+    <string name="category_model_name">Model</string>
+
+
+    <string name="category_quantity">Quantity</string>
+
+
+    <string name="category_price">Price</string>
+
+
+    <string name="category_album_cover">Add an Image</string>
+
+
+    <string name="category_supplier_name">Supplier</string>
+
+
+    <string name="category_supplier_email">email</string>
+
+
+    <string name="hint_manufacturer_name">Manufacturer</string>
+
+
+    <string name="hint_model_name">Model</string>
+
+
+    <string name="hint_price">Price</string>
+
+
+    <string name="hint_Quantity">Quantity</string>
+
+
+    <string name="hint_Supplier_name">Supplier Name</string>
+
+
+    <string name="hint_Supplier_email">Supplier e-mail</string>
+
+
+    <string name="unknown">Unknown</string>
+
+    <string name="minus">-</string>
+
+    <string name="plus">+</string>
+
+    <string name="negative_stock">You cannot have a negative stock</string>
+
+    <string name="sold_out">Sold Out!</string>
+
+    <string name="field_required">This Field cannot be empty</string>
+</resources>

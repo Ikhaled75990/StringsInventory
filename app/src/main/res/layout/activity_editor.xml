@@ -1,0 +1,198 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="16dp"
+    tools:context=".EditorActivity">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="horizontal">
+
+            <TextView
+                style="@style/CategoryStyle"
+                android:text="@string/category_manufacturer_name" />
+
+            <EditText
+                android:id="@+id/edit_manufacturer_name"
+                style="@style/EditTextField"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/hint_manufacturer_name"
+                android:inputType="textCapWords" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="horizontal">
+
+            <TextView
+                style="@style/CategoryStyle"
+                android:layout_weight="1"
+                android:text="@string/category_model_name" />
+
+            <EditText
+                android:id="@+id/edit_model"
+                style="@style/EditTextField"
+                android:layout_width="264dp"
+                android:layout_height="wrap_content"
+                android:hint="@string/hint_model_name"
+                android:inputType="textCapWords" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="horizontal">
+
+            <TextView
+                style="@style/CategoryStyle"
+                android:layout_weight="1"
+                android:text="@string/category_price" />
+
+            <EditText
+                android:id="@+id/edit_price"
+                style="@style/EditTextField"
+                android:layout_width="263dp"
+                android:hint="@string/hint_price"
+                android:inputType="number" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="horizontal">
+
+            <TextView
+                style="@style/CategoryStyle"
+                android:text="@string/category_quantity" />
+
+
+            <EditText
+                android:id="@+id/edit_quantity"
+                style="@style/EditTextField"
+                android:layout_width="263dp"
+                android:layout_height="wrap_content"
+                android:hint="@string/hint_Quantity"
+                android:inputType="number" />
+        </LinearLayout>
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center_horizontal"
+            android:orientation="horizontal">
+
+
+            <Button
+                android:id="@+id/plus"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/plus" />
+
+            <!-- remove Record in inventory -->
+            <Button
+                android:id="@+id/minus"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/minus" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:orientation="horizontal">
+
+            <TextView
+                style="@style/CategoryStyle"
+                android:layout_weight="1"
+                android:text="@string/add_image" />
+
+            <Button
+                android:id="@+id/add_image"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginRight="15dp"
+                android:text="@string/add_image" />
+
+            <ImageView
+                android:id="@+id/image_cover"
+                android:layout_width="100dp"
+                android:layout_height="100dp" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="30sp"
+            android:layout_weight="1"
+            android:orientation="horizontal">
+
+            <TextView
+                style="@style/CategoryStyle"
+                android:layout_weight="1"
+                android:text="@string/category_supplier_name" />
+
+
+            <EditText
+                android:id="@+id/edit_supplier_name"
+                style="@style/EditTextField"
+                android:layout_width="263dp"
+                android:hint="@string/category_supplier_name"
+                android:inputType="textCapWords" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="horizontal">
+
+            <TextView
+                style="@style/CategoryStyle"
+                android:layout_weight="1"
+                android:text="@string/category_supplier_email" />
+
+
+            <EditText
+                android:id="@+id/edit_supplier_email"
+                style="@style/EditTextField"
+                android:layout_width="263dp"
+                android:hint="@string/category_supplier_email"
+                android:inputType="textCapWords" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center">
+
+
+            <Button
+                android:id="@+id/email_button"
+                android:layout_width="wrap_content"
+                android:layout_height="77dp"
+                android:background="@drawable/ic_email_black_48dp" />
+        </LinearLayout>
+
+
+    </LinearLayout>
+
+</LinearLayout>
